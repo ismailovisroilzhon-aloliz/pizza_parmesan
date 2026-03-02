@@ -80,6 +80,25 @@
             align-items: center;
         }
 
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
         .nav-links a {
             color: rgba(255, 255, 255, 0.65);
             text-decoration: none;
@@ -720,11 +739,39 @@
         @media (max-width: 640px) {
             nav {
                 padding: 0.8rem 1rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-hamburger {
+                display: flex;
             }
 
             .nav-links {
                 display: none;
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+                padding: 0.5rem 0;
             }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.7rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                font-size: 0.9rem;
+            }
+
+
+
+
+
+
+
+
 
             .phones-banner {
                 gap: 1rem;
@@ -740,15 +787,15 @@
             }
         }
     </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5D4L0V1BJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5D4L0V1BJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-Q5D4L0V1BJ');
-</script>
+        gtag('config', 'G-Q5D4L0V1BJ');
+    </script>
     <link rel="icon" type="image/jpeg" sizes="64x64" href="favicon.jpeg">
     <link rel="shortcut icon" href="favicon.jpeg" sizes="64x64" type="image/jpeg">
 </head>
@@ -762,12 +809,15 @@
                 alt="Пармезан" class="nav-logo" />
             <span class="nav-name">Пармезан</span>
         </a>
-        <ul class="nav-links">
-            <li><a href="#menu">Меню</a></li>
-            <li><a href="#special">Ифтар</a></li>
-            <li><a href="#about">О нас</a></li>
-            <li><a href="#contact">Контакты</a></li>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#special" onclick="closeMenu">Ифтар</a></li>
+            <li><a href="#menu" onclick="closeMenu()">Меню</a></li>
+            <li><a href="#contact" onclick="closeMenu()">Контакты</a></li>
+            <li><a href="order.html">Заказать онлайн</a></li>
         </ul>
+        <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
 
     <!-- HERO -->
@@ -1346,7 +1396,7 @@
         <p>© 2026 Пармезан Пиццалары — Все права защищены
         <p>
 
-            <p style="margin-top:0.6rem; font-size:0.68rem; letter-spacing:1px; color:rgba(255,255,255,0.2);">
+        <p style="margin-top:0.6rem; font-size:0.68rem; letter-spacing:1px; color:rgba(255,255,255,0.2);">
             Designed &amp; developed by
             <a href="https://isroilzhon.vercel.app" target="_blank" rel="noopener"
                 style="color:rgba(255,255,255,0.35); text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.15); padding-bottom:1px;"
@@ -1415,15 +1465,21 @@
             }
         }
 
-            document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+
+    <script>
+        function toggleMenu() {
+            var links = document.getElementById('nav-links');
+            links.classList.toggle('open');
+        }
+        function closeMenu() {
+            document.getElementById('nav-links').classList.remove('open');
+        }
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 
 
 </html>
-
-
-
-
-
-
