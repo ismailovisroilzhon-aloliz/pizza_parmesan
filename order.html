@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Заказ онлайн — Пармезан Пиццалары</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Oswald:wght@400;600;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --red: #C8212A;
+            --green: #1a7a2e;
+            --cream: #FFF8EF;
+            --dark: #1a0d0d;
+            --gold: #D4A847;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* ====== NAV ====== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(26, 13, 13, 0.97);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(200, 33, 42, 0.2);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .nav-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .nav-user {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.65);
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-user:hover {
+            color: white;
+        }
+
+        .nav-cart-btn {
+            background: var(--red);
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.5rem 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-cart-btn:hover {
+            background: #a01820;
+        }
+
+        .cart-badge {
+            background: white;
+            color: var(--red);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Lato', sans-serif;
+        }
+
+        /* ====== HERO MINI ====== */
+        .order-hero {
+            background: var(--dark);
+            padding: 7rem 2rem 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 80%, rgba(200, 33, 42, 0.3) 0%, transparent 60%);
+        }
+
+        .order-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: repeating-linear-gradient(90deg, var(--red) 0px, var(--red) 24px, white 24px, white 48px);
+        }
+
+        .order-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .order-hero h1 span {
+            color: var(--red);
+            font-style: italic;
+        }
+
+        .order-hero p {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 4px;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-top: 0.6rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ====== LAYOUT ====== */
+        .order-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .order-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sticky {
+                position: static !important;
+            }
+        }
+
+        /* ====== SECTION LABELS ====== */
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 0.4rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ====== CATEGORY TABS ====== */
+        .cat-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cat-tab {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.5rem 1.1rem;
+            border: 1px solid rgba(26, 13, 13, 0.2);
+            background: transparent;
+            color: rgba(26, 13, 13, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-tab:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .cat-tab.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: white;
+        }
+
+        /* ====== MENU ITEMS ====== */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1rem;
+        }
+
+        .item-card {
+            background: white;
+            border: 1px solid rgba(26, 13, 13, 0.08);
+            padding: 1.2rem;
+            position: relative;
+            transition: all 0.25s;
+            overflow: hidden;
+        }
+
+        .item-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--red);
+            transform: scaleX(0);
+            transition: transform 0.25s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .item-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .item-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .item-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-desc {
+            font-size: 0.78rem;
+            color: #888;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .item-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .item-size-select {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.78rem;
+            border: 1px solid rgba(26, 13, 13, 0.15);
+            padding: 0.3rem 0.5rem;
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-add {
+            background: var(--dark);
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.5rem 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+        }
+
+        .btn-add:hover {
+            background: var(--red);
+        }
+
+        .btn-add.added {
+            background: var(--green);
+        }
+
+        /* ====== CART ====== */
+        .cart-sticky {
+            position: sticky;
+            top: 90px;
+        }
+
+        .cart-box {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 1.8rem;
+            position: relative;
+        }
+
+        .cart-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--red);
+        }
+
+        .cart-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-header span {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+        }
+
+        .cart-header span:hover {
+            color: var(--red);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+        }
+
+        .cart-empty div {
+            font-size: 2.5rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.7rem 0.9rem;
+        }
+
+        .ci-name {
+            flex: 1;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.3;
+        }
+
+        .ci-name small {
+            display: block;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .ci-qty {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .ci-qty button {
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ci-qty button:hover {
+            background: var(--red);
+        }
+
+        .ci-qty span {
+            font-size: 0.85rem;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .ci-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gold);
+            min-width: 55px;
+            text-align: right;
+        }
+
+        .cart-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 1rem 0;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .cart-total-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .cart-total-val {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* ====== CHECKOUT FORM ====== */
+        .checkout-form {
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .cf-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            display: block;
+            margin-bottom: 0.35rem;
+        }
+
+        .cf-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: white;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.88rem;
+            padding: 0.6rem 0.85rem;
+            outline: none;
+            margin-bottom: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .cf-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .cf-input:focus {
+            border-color: var(--red);
+        }
+
+        .delivery-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dt-btn {
+            flex: 1;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.55rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dt-btn.active {
+            background: var(--red);
+            border-color: var(--red);
+            color: white;
+        }
+
+        .dt-btn:hover:not(.active) {
+            border-color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .btn-whatsapp {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            margin-top: 1rem;
+            clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+        }
+
+        .btn-whatsapp:hover {
+            background: #1ead55;
+            transform: translateY(-1px);
+        }
+
+        .btn-whatsapp svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-whatsapp:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ====== NOTIFICATION ====== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            background: var(--dark);
+            color: white;
+            padding: 0.85rem 1.4rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-left: 3px solid var(--green);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* ====== EMPTY STATE ====== */
+        .category-section {
+            display: none;
+        }
+
+        .category-section.active {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .items-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .order-layout {
+                padding: 2rem 1rem 4rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5D4L0V1BJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q5D4L0V1BJ');
+    </script>
+    <link rel="icon" type="image/jpeg" sizes="64x64" href="favicon.jpeg">
+    <link rel="shortcut icon" href="favicon.jpeg" sizes="64x64" type="image/jpeg">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="favicon.jpeg" alt="Пармезан" class="nav-logo" />
+            <span class="nav-name">Пармезан</span>
+        </a>
+        <div class="nav-right">
+            <button class="nav-cart-btn" onclick="scrollToCart()">
+                🛒 Корзина <span class="cart-badge" id="cart-badge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="order-hero">
+        <h1>Заказ <span>онлайн</span></h1>
+        <p>Выберите блюда — отправим заказ в WhatsApp</p>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="order-layout">
+
+        <!-- LEFT: MENU -->
+        <div>
+            <p class="section-label">Наше меню</p>
+            <h2 class="section-title">Выберите блюда</h2>
+
+            <!-- CATEGORY TABS -->
+            <div class="cat-tabs">
+                <button class="cat-tab active" onclick="showCat('pizza', this)">🍕 Пицца</button>
+                <button class="cat-tab" onclick="showCat('fastfood', this)">🌯 Фаст-фуд</button>
+                <button class="cat-tab" onclick="showCat('cold-rolls', this)">🍣 Холодные роллы</button>
+                <button class="cat-tab" onclick="showCat('hot-rolls', this)">🔥 Горячие роллы</button>
+                <button class="cat-tab" onclick="showCat('drinks', this)">🥤 Напитки</button>
+            </div>
+
+            <!-- PIZZA -->
+            <div class="category-section active" id="cat-pizza">
+                <div class="items-grid" id="grid-pizza"></div>
+            </div>
+            <!-- FASTFOOD -->
+            <div class="category-section" id="cat-fastfood">
+                <div class="items-grid" id="grid-fastfood"></div>
+            </div>
+            <!-- COLD ROLLS -->
+            <div class="category-section" id="cat-cold-rolls">
+                <div class="items-grid" id="grid-cold-rolls"></div>
+            </div>
+            <!-- HOT ROLLS -->
+            <div class="category-section" id="cat-hot-rolls">
+                <div class="items-grid" id="grid-hot-rolls"></div>
+            </div>
+            <!-- DRINKS -->
+            <div class="category-section" id="cat-drinks">
+                <div class="items-grid" id="grid-drinks"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT: CART -->
+        <div class="cart-sticky" id="cart-section">
+            <div class="cart-box">
+                <div class="cart-header">
+                    <span>Корзина</span>
+                    <span onclick="clearCart()">Очистить</span>
+                </div>
+
+                <div id="cart-empty" class="cart-empty">
+                    <div>🛒</div>
+                    Корзина пуста.<br />Добавьте блюда из меню.
+                </div>
+
+                <div id="cart-items-list" class="cart-items" style="display:none;"></div>
+
+                <div id="cart-summary" style="display:none;">
+                    <hr class="cart-divider" />
+                    <div class="cart-total-row">
+                        <span class="cart-total-label">Итого</span>
+                        <span class="cart-total-val" id="cart-total">0 с</span>
+                    </div>
+                </div>
+
+                <!-- CHECKOUT FORM -->
+                <div class="checkout-form" id="checkout-form" style="display:none;">
+                    <div class="delivery-toggle">
+                        <button class="dt-btn active" id="dt-delivery" onclick="setDelivery('delivery')">🚴
+                            Доставка</button>
+                        <button class="dt-btn" id="dt-pickup" onclick="setDelivery('pickup')">🏪 Самовывоз</button>
+                    </div>
+
+                    <label class="cf-label">Ваше имя *</label>
+                    <input class="cf-input" id="order-name" type="text" placeholder="Исроил" />
+
+                    <label class="cf-label">Телефон *</label>
+                    <input class="cf-input" id="order-phone" type="tel" placeholder="+996 ХХХ ХХХ ХХХ" />
+
+                    <div id="address-field">
+                        <label class="cf-label">Адрес доставки *</label>
+                        <input class="cf-input" id="order-address" type="text" placeholder="ул. Манаса 30, кв. 5" />
+                    </div>
+
+                    <label class="cf-label">Комментарий</label>
+                    <input class="cf-input" id="order-comment" type="text" placeholder="Без лука, соус отдельно..." />
+
+                    <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12c0 2.122.552 4.112 1.516 5.838L0 24l6.335-1.497A11.97 11.97 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.895 0-3.673-.502-5.204-1.38l-.373-.22-3.862.913.943-3.768-.242-.388A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+                        </svg>
+                        Отправить заказ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">✓ Добавлено в корзину</div>
+
+    <script>
+
+        const WHATSAPP_NUMBER = '996220773013';
+
+        // DATA — Menu items
+        const MENU = {
+            pizza: [
+                { id: 'p1', name: 'Маргарита', emoji: '🍕', desc: 'Томатный соус, моцарелла, базилик', sizes: [{ label: '30см', price: 400 }, { label: '35см', price: 450 }] },
+                { id: 'p2', name: 'Пармезан', emoji: '🍕', desc: 'Фирменная пицца с пармезаном и прошутто', sizes: [{ label: '30см', price: 450 }, { label: '35см', price: 550 }] },
+                { id: 'p3', name: '4 Сыра', emoji: '🍕', desc: 'Моцарелла, пармезан, чеддер, горгонзола', sizes: [{ label: '30см', price: 450 }, { label: '35см', price: 500 }] },
+                { id: 'p4', name: 'Барбекю', emoji: '🍕', desc: 'Говядина, соус BBQ, лук, перец', sizes: [{ label: '30см', price: 500 }, { label: '35см', price: 550 }] },
+                { id: 'p5', name: 'Куриная', emoji: '🍕', desc: 'Курица, грибы, перец, моцарелла', sizes: [{ label: '30см', price: 450 }, { label: '35см', price: 500 }] },
+                { id: 'p6', name: 'Мясная', emoji: '🍕', desc: 'Говядина, курица, колбаса, перец', sizes: [{ label: '30см', price: 500 }, { label: '35см', price: 550 }] },
+                { id: 'p7', name: 'Аль-Шам', emoji: '🍕', desc: 'Хумус, фалафель, овощи гриль', sizes: [{ label: '30см', price: 500 }, { label: '35см', price: 550 }] },
+                { id: 'p8', name: '4 Сезона', emoji: '🍕', desc: 'Ветчина, грибы, артишок, маслины', sizes: [{ label: '30см', price: 500 }, { label: '35см', price: 550 }] },
+            ],
+            fastfood: [
+                { id: 'f1', name: 'Шаурма с говядиной', emoji: '🌯', desc: 'Говядина, овощи, фирменный соус', price: 220 },
+                { id: 'f2', name: 'Шаурма с курицей', emoji: '🌯', desc: 'Курица, овощи, фирменный соус', price: 200 },
+                { id: 'f3', name: 'Шаурма Ассорти', emoji: '🌯', desc: 'Говядина + курица, двойная порция', price: 250 },
+                { id: 'f4', name: 'Двойной бургер', emoji: '🍔', desc: 'Двойная говяжья котлета, сыр, соус', price: 280 },
+                { id: 'f5', name: 'Бургер с говядиной', emoji: '🍔', desc: 'Говяжья котлета, овощи, соус', price: 160 },
+                { id: 'f6', name: 'Бургер куриный', emoji: '🍔', desc: 'Куриная котлета, сыр, овощи', price: 160 },
+                { id: 'f7', name: 'Хот-Дог', emoji: '🌭', desc: 'Сосиска, горчица, кетчуп', price: 100 },
+                { id: 'f8', name: 'Двойной Хот-Дог', emoji: '🌭', desc: 'Двойная сосиска, соусы', price: 120 },
+                { id: 'f9', name: 'Хот-Дог с мясом', emoji: '🌭', desc: 'Сосиска + говядина, соусы', price: 150 },
+            ],
+            'cold-rolls': [
+                { id: 'cr1', name: 'Филадельфия Классик', emoji: '🍣', desc: 'Лосось, сливочный сыр, огурец', price: 280 },
+                { id: 'cr2', name: 'Филадельфия Салмон', emoji: '🍣', desc: 'Двойной лосось, авокадо', price: 250 },
+                { id: 'cr3', name: 'Филадельфия с тобико', emoji: '🍣', desc: 'Лосось, тобико, сливочный сыр', price: 250 },
+                { id: 'cr4', name: 'Калифорния с кунджутом', emoji: '🍣', desc: 'Краб, авокадо, кунджут', price: 220 },
+                { id: 'cr5', name: 'Калифорния с тобико', emoji: '🍣', desc: 'Краб, авокадо, тобико', price: 220 },
+                { id: 'cr6', name: 'Мини ролл с огурцом', emoji: '🥢', desc: 'Огурец, рис, нори — 8 шт', price: 120 },
+                { id: 'cr7', name: 'Мини ролл с лососем', emoji: '🥢', desc: 'Лосось, рис, нори — 8 шт', price: 140 },
+            ],
+            'hot-rolls': [
+                { id: 'hr1', name: 'Запечённая Филадельфия', emoji: '🔥', desc: 'Лосось, сыр, горячий соус', price: 300 },
+                { id: 'hr2', name: 'Запечённая Калифорния', emoji: '🔥', desc: 'Краб, сыр, горячий соус', price: 260 },
+                { id: 'hr3', name: 'Темпура лосось', emoji: '🔥', desc: 'Лосось в хрустящей темпуре', price: 320 },
+                { id: 'hr4', name: 'Горячий дракон', emoji: '🔥', desc: 'Угорь, авокадо, соус унаги', price: 350 },
+            ],
+            drinks: [
+                { id: 'd1', name: 'Кока-Кола', emoji: '🥤', desc: '330 мл', price: 70 },
+                { id: 'd2', name: 'Фанта', emoji: '🥤', desc: '330 мл', price: 70 },
+                { id: 'd3', name: 'Спрайт', emoji: '🥤', desc: '330 мл', price: 70 },
+                { id: 'd4', name: 'Вода', emoji: '💧', desc: '500 мл', price: 40 },
+                { id: 'd5', name: 'Сок яблоко', emoji: '🧃', desc: '200 мл', price: 60 },
+                { id: 'd6', name: 'Сок персик', emoji: '🧃', desc: '200 мл', price: 60 },
+            ]
+        };
+
+        // CART STATE
+        let cart = [];
+        let deliveryType = 'delivery';
+
+        // RENDER MENU
+        function renderMenu() {
+            Object.entries(MENU).forEach(([cat, items]) => {
+                const grid = document.getElementById('grid-' + cat);
+                grid.innerHTML = items.map(item => {
+                    if (item.sizes) {
+                        return `
+                <div class="item-card" id="card-${item.id}">
+                    <div class="item-emoji">${item.emoji}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-desc">${item.desc}</div>
+                    <div class="item-bottom">
+                        <select class="item-size-select" id="size-${item.id}">
+                            ${item.sizes.map(s => `<option value="${s.price}">${s.label} — ${s.price} с</option>`).join('')}
+                        </select>
+                        <button class="btn-add" id="addbtn-${item.id}" onclick="addToCart('${item.id}', '${cat}')">+ В корзину</button>
+                    </div>
+                </div>`;
+                    } else {
+                        return `
+                <div class="item-card" id="card-${item.id}">
+                    <div class="item-emoji">${item.emoji}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-desc">${item.desc}</div>
+                    <div class="item-bottom">
+                        <span class="item-price">${item.price} с</span>
+                        <button class="btn-add" id="addbtn-${item.id}" onclick="addToCart('${item.id}', '${cat}')">+ В корзину</button>
+                    </div>
+                </div>`;
+                    }
+                }).join('');
+            });
+        }
+
+        // CART FUNCTIONS
+        function addToCart(itemId, cat) {
+            const item = MENU[cat].find(i => i.id === itemId);
+            if (!item) return;
+
+            let price = item.price;
+            let sizeLabel = '';
+            if (item.sizes) {
+                const sel = document.getElementById('size-' + itemId);
+                price = parseInt(sel.value);
+                sizeLabel = sel.options[sel.selectedIndex].text.split('—')[0].trim();
+            }
+
+            const cartKey = itemId + (sizeLabel ? '_' + sizeLabel : '');
+            const existing = cart.find(c => c.key === cartKey);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ key: cartKey, id: itemId, name: item.name, emoji: item.emoji, price, sizeLabel, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`${item.emoji} ${item.name} добавлен`);
+
+            const btn = document.getElementById('addbtn-' + itemId);
+            if (btn) {
+                btn.classList.add('added');
+                btn.textContent = '✓ Добавлено';
+                setTimeout(() => {
+                    btn.classList.remove('added');
+                    btn.textContent = '+ В корзину';
+                }, 1200);
+            }
+        }
+
+        function changeQty(key, delta) {
+            const idx = cart.findIndex(c => c.key === key);
+            if (idx === -1) return;
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            updateCartUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+            const count = cart.reduce((s, c) => s + c.qty, 0);
+
+            document.getElementById('cart-badge').textContent = count;
+
+            const isEmpty = cart.length === 0;
+            document.getElementById('cart-empty').style.display = isEmpty ? 'block' : 'none';
+            document.getElementById('cart-items-list').style.display = isEmpty ? 'none' : 'flex';
+            document.getElementById('cart-summary').style.display = isEmpty ? 'none' : 'block';
+            document.getElementById('checkout-form').style.display = isEmpty ? 'none' : 'block';
+
+            if (!isEmpty) {
+                document.getElementById('cart-items-list').innerHTML = cart.map(c => `
+            <div class="cart-item">
+                <span style="font-size:1.3rem;">${c.emoji}</span>
+                <div class="ci-name">
+                    ${c.name}
+                    ${c.sizeLabel ? `<small>${c.sizeLabel}</small>` : ''}
+                </div>
+                <div class="ci-qty">
+                    <button onclick="changeQty('${c.key}', -1)">−</button>
+                    <span>${c.qty}</span>
+                    <button onclick="changeQty('${c.key}', 1)">+</button>
+                </div>
+                <div class="ci-price">${c.price * c.qty} с</div>
+            </div>
+        `).join('');
+                document.getElementById('cart-total').textContent = total + ' с';
+            }
+        }
+
+        // DELIVERY TYPE
+        function setDelivery(type) {
+            deliveryType = type;
+            document.getElementById('dt-delivery').classList.toggle('active', type === 'delivery');
+            document.getElementById('dt-pickup').classList.toggle('active', type === 'pickup');
+            document.getElementById('address-field').style.display = type === 'delivery' ? 'block' : 'none';
+        }
+
+        // SEND ORDER TO WHATSAPP
+        function sendToWhatsApp() {
+            const name = document.getElementById('order-name').value.trim();
+            const phone = document.getElementById('order-phone').value.trim();
+            const address = document.getElementById('order-address').value.trim();
+            const comment = document.getElementById('order-comment').value.trim();
+
+            if (!name || !phone) {
+                alert('Пожалуйста, введите ваше имя и номер телефона.');
+                return;
+            }
+            if (deliveryType === 'delivery' && !address) {
+                alert('Пожалуйста, введите адрес доставки.');
+                return;
+            }
+            if (cart.length === 0) {
+                alert('Корзина пуста.');
+                return;
+            }
+
+            const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+
+            const orderLines = cart.map(c =>
+                `• ${c.emoji} ${c.name}${c.sizeLabel ? ' (' + c.sizeLabel + ')' : ''} × ${c.qty} = ${c.price * c.qty} с`
+            ).join('\n');
+
+            const msg =
+                `🍕 *НОВЫЙ ЗАКАЗ — Пармезан Пиццалары*
+━━━━━━━━━━━━━━━━━━━━
+
+${orderLines}
+
+━━━━━━━━━━━━━━━━━━━━
+💰 *Итого: ${total} с*
+
+📦 *Тип:* ${deliveryType === 'delivery' ? 'Доставка' : 'Самовывоз'}
+👤 *Имя:* ${name}
+📞 *Телефон:* ${phone}
+${deliveryType === 'delivery' ? `🏠 *Адрес:* ${address}` : ''}
+${comment ? `💬 *Комментарий:* ${comment}` : ''}`;
+
+            const encoded = encodeURIComponent(msg);
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`, '_blank');
+        }
+
+        // CATEGORY SWITCHING
+        function showCat(cat, btn) {
+            document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('cat-' + cat).classList.add('active');
+        }
+
+        // TOAST
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = '✓ ' + msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function scrollToCart() {
+            document.getElementById('cart-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // INIT
+        renderMenu();
+        updateCartUI();
+
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+
+    <style>
+        footer {
+            background: #1a0d0d;
+            border-top: 1px solid rgba(200, 33, 42, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: repeating-linear-gradient(90deg,
+                    #C8212A 0px, #C8212A 24px,
+                    white 24px, white 48px);
+        }
+
+        /* Subtle radial glow */
+        footer::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 200px;
+            background: radial-gradient(ellipse at 50% 100%, rgba(200, 33, 42, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3.5rem 2rem 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── Top row: brand + nav columns ── */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 760px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Brand column */
+        .footer-brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .footer-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(200, 33, 42, 0.4);
+        }
+
+        .footer-tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 1.4rem;
+            padding-left: 46px;
+            /* indent under logo */
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-contact-item:hover {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-contact-item .fci-icon {
+            font-size: 0.9rem;
+            min-width: 18px;
+        }
+
+        /* Nav columns */
+        .footer-col-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #C8212A;
+            margin-bottom: 1.1rem;
+        }
+
+        .footer-col-title::after {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: rgba(200, 33, 42, 0.4);
+            margin-top: 0.5rem;
+        }
+
+        .footer-nav-link {
+            display: block;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.45);
+            text-decoration: none;
+            margin-bottom: 0.6rem;
+            transition: color 0.2s, padding-left 0.2s;
+            padding-left: 0;
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+            padding-left: 6px;
+        }
+
+        /* ── Bottom bar ── */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .footer-copy {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-dev {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .footer-dev a {
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            transition: color 0.2s;
+        }
+
+        .footer-dev a:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer-dot {
+            color: rgba(200, 33, 42, 0.5);
+        }
+    </style>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-grid">
+
+                <!-- Brand -->
+                <div class="footer-brand">
+                    <div class="footer-brand-name">
+                        <img src="favicon.jpeg" alt="Пармезан" class="footer-logo" />
+                        Пармезан
+                    </div>
+                    <p class="footer-tagline">Пиццалары · Настоящая итальянская кухня</p>
+
+                    <a href="tel:+996220773013" class="footer-contact-item">
+                        <span class="fci-icon">📞</span> +996 554 744 949
+                    </a>
+                    <a href="https://wa.me/996554744949" target="_blank" rel="noopener" class="footer-contact-item">
+                        <span class="fci-icon">💬</span> WhatsApp
+                    </a>
+                    <a href="#" class="footer-contact-item">
+                        <span class="fci-icon">📍</span> Уч-Коргон, Кыргызстан
+                    </a>
+                    <a href="#" class="footer-contact-item">
+                        <span class="fci-icon">🕐</span> Пн–Вс: 10:00 – 23:00
+                    </a>
+                </div>
+
+                <!-- Menu links -->
+                <div>
+                    <p class="footer-col-title">Меню</p>
+                    <a href="order.html#cat-pizza" class="footer-nav-link">🍕 Пицца</a>
+                    <a href="order.html#cat-fastfood" class="footer-nav-link">🌯 Фаст-фуд</a>
+                    <a href="order.html#cat-cold-rolls" class="footer-nav-link">🍣 Холодные роллы</a>
+                    <a href="order.html#cat-hot-rolls" class="footer-nav-link">🔥 Горячие роллы</a>
+                    <a href="order.html#cat-drinks" class="footer-nav-link">🥤 Напитки</a>
+                </div>
+
+                <!-- Site links -->
+                <div>
+                    <p class="footer-col-title">Навигация</p>
+                    <a href="index.html" class="footer-nav-link">Главная</a>
+                    <a href="order.html" class="footer-nav-link">Заказать онлайн</a>
+                    <a href="index.html#about" class="footer-nav-link">О нас</a>
+                    <a href="index.html#gallery" class="footer-nav-link">Галерея</a>
+                    <a href="index.html#contact" class="footer-nav-link">Контакты</a>
+                </div>
+
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2026 Пармезан Пиццалары <span class="footer-dot">·</span> Все права
+                    защищены</span>
+                <span class="footer-dev">
+                    Designed &amp; developed by
+                    <a href="https://isroilzhon.vercel.app" target="_blank" rel="noopener">Isroilzhon Ismailov</a>
+                    <span class="footer-dot">·</span>
+                    <a href="https://instagram.com/isroilismailov_" target="_blank" rel="noopener">Instagram</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
